@@ -1,0 +1,24 @@
+{
+  "name": "article-extractor",
+  "version": "1.0.0",
+  "description": "Extracting articles from news paper and save it as PDF.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "fetchPlaces": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gsmohan/ArticleExtractor.git"
+  },
+  "dependencies": {
+    "html-pdf": "^2.1.0",
+    "node-jsdom": "^3.1.5",
+    "querystring": "^0.2.0"
+  },
+  "author": "mohan g s",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gsmohan/ArticleExtractor/issues"
+  },
+  "homepage": "https://github.com/gsmohan/ArticleExtractor#readme"
+}
