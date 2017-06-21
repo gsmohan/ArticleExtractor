@@ -14,13 +14,6 @@ let apiConfig = {
 let dirName = './articles';
 
 
-//TODO:
-//1 - passing date as a params
-// 1.1 - pass the year and month in YYYY-MM format
-// 1.2 - create a dir with arg name only if article is present
-//3 - checking null while DOM searching
-
-
 class PlaceExtractor {
 
   constructor(places){
@@ -87,17 +80,37 @@ class PlaceExtractor {
 class CategoryExtractor {
 
   constructor(){
-    this.params = querystring.stringify({arcDate: "2016-12-11"});
-    this.options = {
-      host: apiConfig.host,
-      path: apiConfig.archivePath,
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Content-Length': Buffer.byteLength(this.params)
+    this.yearMonth = process.argv[2],
+    this.days = this.daysInMonth(),
+    this.params = null,
+    this.options = null;
+
+    for(let i=1; i<=this.days; i++){
+      let date = this.getDateFormat(i);
+      this.params = querystring.stringify({arcDate: date});
+      this.options = {
+        host: apiConfig.host,
+        path: apiConfig.archivePath,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(this.params)
+        }
       }
+      this.fetchArchiveData();
     }
-    this.fetchArchiveData();
+  }
+
+  getDateFormat(n){
+    let day = (n < 10)? '0'+n : ''+n;
+    return `${this.yearMonth}-${day}`;
+  }
+
+  daysInMonth() {
+    let date = this.yearMonth.split('-'),
+        year = date[0],
+        month = date[1];
+    return new Date(year, month, 0).getDate();
   }
 
   parseArchiveData(data){
@@ -107,7 +120,7 @@ class CategoryExtractor {
       let placesInfo = jsonData[category];
       new PlaceExtractor(placesInfo);
     }else{
-      console.log(`Sorry !! No ${category} Article on this Day`);
+      //console.log(`Sorry !! No ${category} Article on this day`);
     }
   }
 
@@ -121,7 +134,6 @@ class CategoryExtractor {
           this.parseArchiveData(data);
         });
     });
-
     request.write(this.params);
     request.end();
   }
