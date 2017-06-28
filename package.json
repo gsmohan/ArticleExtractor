@@ -4,13 +4,14 @@
   "description": "Extracting articles from news paper and save it as PDF.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "fetchPlaces": "node index.js"
+    "fetchPlaces": "node index_args_year.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gsmohan/ArticleExtractor.git"
   },
   "dependencies": {
+    "async": "^2.4.1",
     "html-pdf": "^2.1.0",
     "node-jsdom": "^3.1.5",
     "querystring": "^0.2.0"
